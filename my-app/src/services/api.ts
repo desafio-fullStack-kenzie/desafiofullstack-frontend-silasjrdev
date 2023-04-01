@@ -1,6 +1,7 @@
 import axios from "axios";
+import { BaseUrl } from "../constants/endpoints";
 
-export const api = axios.create({
-    baseURL: "http://localhost:8000/api",
+export const Api = axios.create({
+    baseURL: BaseUrl,
     timeout: 5000,
 })
