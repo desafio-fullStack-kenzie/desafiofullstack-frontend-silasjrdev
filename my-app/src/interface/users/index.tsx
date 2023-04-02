@@ -8,6 +8,7 @@ interface iUserDataRegister {
     password: string
     confirmPassword?: string
     contact: string
+    imageUrl?: string
 }
 
 interface iUserDataLogin {
@@ -42,6 +43,18 @@ interface iUserData{
     updatedAt?: Date;
 }
 
+interface iUpdateUserData {
+    fullName?: string
+    email?: string
+    password?: string
+    confirmPassword?: string
+    contact?: string
+}
+
+interface iUpdateUserImageData {
+    imageUrl: string
+}
+
 interface iUserContextProps {
     //Register
     onSubmitRegister: (dataRegister: iUserDataRegister) => Promise<void>
@@ -51,6 +64,16 @@ interface iUserContextProps {
     userState: boolean
     setUserState: React.Dispatch<React.SetStateAction<boolean>>
 
+    //update user
+    updateUserData:(data: iUpdateUserData) => Promise<void>
+
+    //update image
+    updateUserImageData:(data: iUpdateUserImageData) => Promise<void>
+
+    // loading
+    modalAddOpen?: boolean
+    setModalAddOpen: React.Dispatch<React.SetStateAction<boolean>>
+
     //Globals
     loading: boolean
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
@@ -58,7 +81,7 @@ interface iUserContextProps {
     userData:{}
     setUserData: React.Dispatch<React.SetStateAction<{}>>
 
-    setUser:React.Dispatch<React.SetStateAction<iUserData | null>>
     user:iUserData | null
+    setUser:React.Dispatch<React.SetStateAction<iUserData | null>>
 }
-export type {iAuthProviderProps, iUserDataRegister, iUserDataLogin, iUserDataRegisterResponse, iUserTokenRegisterResponse, iResponseLogin, iUserData, iUserContextProps}
+export type {iUpdateUserImageData, iAuthProviderProps, iUserDataRegister, iUserDataLogin, iUserDataRegisterResponse, iUserTokenRegisterResponse, iResponseLogin, iUserData, iUserContextProps, iUpdateUserData}

@@ -1,16 +1,19 @@
 import {createContext, useEffect, useState} from "react"
-import {useNavigate} from "react-router"
+import {useNavigate, useParams} from "react-router"
 import { toastifySucess, toastifyFailed } from "../../components/toastify"
 import { Api } from "../../services/api"
-import { iAuthProviderProps, iResponseLogin, iUserContextProps, iUserData, iUserDataLogin, iUserDataRegister, iUserDataRegisterResponse, iUserTokenRegisterResponse } from "../../interface/users";
+import { iAuthProviderProps, iResponseLogin, iUpdateUserData, iUpdateUserImageData, iUserContextProps, iUserData, iUserDataLogin, iUserDataRegister, iUserDataRegisterResponse, iUserTokenRegisterResponse } from "../../interface/users";
 
 export const UserContext = createContext({} as iUserContextProps);
+
+const {userId} = useParams()
 
 export default function UserProvider({children}: iAuthProviderProps) {
     const [loading, setLoading] = useState(true)
     const [userState, setUserState] = useState(false)
     const [userData, setUserData] = useState({})
     const [user, setUser] = useState<iUserData | null>(null)
+    const [modalAddOpen, setModalAddOpen] = useState<boolean>(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -84,9 +87,58 @@ export default function UserProvider({children}: iAuthProviderProps) {
         }
     }
 
+    const updateUserData = async (data: iUpdateUserData) => {
+        const token = localStorage.getItem("@TOKEN");
+
+        try {
+            await Api.patch(`/users/${userId}`, data,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
+            toastifySucess("Usuário atualizado")
+            navigate("/dashboard")
+        } catch (error) {
+            console.error(error)
+            toastifyFailed("Ops algo deu errado")
+        }
+    }
+
+    const updateUserImageData = async (data: iUpdateUserImageData) => {
+        const token = localStorage.getItem("@TOKEN");
+
+        try {
+            await Api.patch(`/users/${userId}/image`, data,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
+            toastifySucess("Usuário atualizado")
+            navigate("/dashboard")
+        } catch (error) {
+            console.error(error)
+            toastifyFailed("Ops algo deu errado")
+        }
+    }
+
     return (
         <UserContext.Provider 
-            value={{loading, setLoading, onSubmitRegister, onSubmitLogin, userState, setUserState, userData, setUserData,setUser, user}}
+            value={{
+                setModalAddOpen, 
+                updateUserData, 
+                updateUserImageData, 
+                setLoading, onSubmitRegister, 
+                onSubmitLogin,
+                setUserState, 
+                setUserData, 
+                setUser, 
+                loading, 
+                modalAddOpen, 
+                userData, 
+                userState, 
+                user}}
         >{children}</UserContext.Provider>
     )
 }

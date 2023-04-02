@@ -5,14 +5,15 @@ import { toastifySucess, toastifyFailed } from "../../components/toastify"
 import {useNavigate, useParams} from "react-router-dom"
 import { UserContext } from "../AuthUserContext"
 
-const ContactContext = createContext({} as iContactContextProps );
+export const ContactContext = createContext({} as iContactContextProps );
 
 const {contactId} = useParams()
 
 const ContactProvider = ({children}: iContactProviderProps) => {
-    const [contactData, setContactData] = useState<iContactData[]>()
+    const [contactData, setContactData] = useState<iContactData>({})
     const {user} = useContext(UserContext)
     const [loading, setLoading] = useState<boolean>(false)
+    const [modalAddOpen, setModalAddOpen] = useState<boolean>(false)
     const navigate = useNavigate()
 
     const getContactData = async () => {
@@ -64,7 +65,8 @@ const ContactProvider = ({children}: iContactProviderProps) => {
             toastifySucess("Contato atualizado com sucesso")
             navigate("/dashboard")
         } catch (error) {
-            
+            console.error(error)
+            toastifyFailed("Ops algo deu errado")
         }
     }
     const updateContactAddressData = async (data: iContactAddressUpdate) => {
@@ -81,21 +83,29 @@ const ContactProvider = ({children}: iContactProviderProps) => {
             toastifySucess("Contato atualizado com sucesso")
             navigate("/dashboard")
         } catch (error) {
-            
+            console.error(error)
+            toastifyFailed("Ops algo deu errado")
         }
     }
 
     return (
         <ContactContext.Provider value={{
-            loading,
             getContactData,
             postContactData,
             deleteContactData,
             updateContactAddressData,
-            updateContactData
+            updateContactData,
+            setModalAddOpen,
+            setLoading,
+            setContactData,
+            user,
+            contactData,
+            loading,
+            modalAddOpen
         }}>
             {children}
         </ContactContext.Provider>
     )
 }
 
+export default ContactProvider;
