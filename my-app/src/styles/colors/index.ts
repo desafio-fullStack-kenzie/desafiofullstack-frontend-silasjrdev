@@ -6,11 +6,11 @@ const colors = {
     },
 
     gray: {
-        colorGrey0:   "#F8F9FA",
-        colorGrey1:   "#868E96",
-        colorGrey2:   "#343B41",
-        colorGrey3:   "#212529",
-        colorGrey4:   "#121214",
+        colorGray0:   "#F8F9FA",
+        colorGray1:   "#868E96",
+        colorGray2:   "#343B41",
+        colorGray3:   "#212529",
+        colorGray4:   "#121214",
     },
 
     trafficLights: {

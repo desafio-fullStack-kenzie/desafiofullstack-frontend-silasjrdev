@@ -1,3 +1,5 @@
+import { iUserData } from "../users"
+
 interface iContactProviderProps {
     children: React.ReactNode
 }
@@ -25,7 +27,7 @@ interface iContactUpdate {
 }
 
 interface iContactAddressUpdate{
-    id:string
+    id?:string
     city?: string
     state?: string
     zipCode?: string
@@ -50,12 +52,34 @@ interface iContactData {
 }
 
 interface iContactContextProps {
+    //get contact
+    getContactData: () => Promise<void>
+
+    //post contact
+    postContactData: (data: any) => Promise<void>
+
+    //delete contact
+    deleteContactData: (id: string) => Promise<void>
+
+    //update contact
+    updateContactData: (data: any) => Promise<void>
+
+    //update address contact
+    updateContactAddressData: (data: any) => Promise<void>
+    
+    //loading
+    modalAddOpen?: boolean
+    setModalAddOpen: React.Dispatch<React.SetStateAction<boolean>>
+    
+    //Globals
     loading?: boolean
-    getContactData?: () => Promise<void>
-    postContactData?: (data: any) => Promise<void>
-    deleteContactData?: (id: string) => Promise<void>
-    updateContactData?: (data: any) => Promise<void>
-    updateContactAddressData?: (data: any) => Promise<void> 
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+    
+    contactData:{}
+    setContactData: React.Dispatch<React.SetStateAction<{}>>
+
+    user: iUserData | null
+
 }
 
 export type {iContactProviderProps, iContactDataRegister, iContactDataRegisterResponse, iContactData, iContactContextProps, iContactUpdate, iContactAddressUpdate}
