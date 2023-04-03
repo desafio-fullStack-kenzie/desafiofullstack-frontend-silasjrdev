@@ -7,6 +7,8 @@ import { GlobalStyle } from './styles/global';
 import { ThemeProvider } from 'styled-components';
 import theme from './styles';
 import { BrowserRouter } from 'react-router-dom';
+import AuthProvider from "./contexts/AuthUserContext"
+import ContactProvider from "./contexts/contactsContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
@@ -24,8 +26,12 @@ root.render(
         draggable
         pauseOnHover
         />
-        <GlobalStyle/>
-        <App />
+        <AuthProvider>
+          <ContactProvider>
+            <GlobalStyle/>
+            <App />
+          </ContactProvider>
+        </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>

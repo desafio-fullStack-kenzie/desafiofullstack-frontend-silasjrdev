@@ -1,12 +1,13 @@
 import { useContext } from "react"
-import * as S from "../../modals/createContact/style.contactModal"
+import * as S from "./style.updateUser"
 import { UserContext } from "../../../contexts/AuthUserContext"
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchemaUpdateUser from "../../../validations/users/updateUser";
 import { iUpdateUserData } from "../../../interface/users";
 import StyledInput from "../../input/style.input";
-import Button from "../../button/style.button";
+import {Button} from "../../button/style.button";
+import { useNavigate } from "react-router-dom";
 
 const ModalUpdateUser = () => {
     const {updateUserData, setModalAddOpen} = useContext(UserContext)
@@ -19,14 +20,18 @@ const ModalUpdateUser = () => {
         resolver: yupResolver(formSchemaUpdateUser)
     })
 
+    const navigate = useNavigate()
+
+    function closeModal(){
+        navigate("/dashboard", {replace: true})
+    }
+
     return (
         <>
             <S.DivMain>
                 <S.DivContainer>
                     <S.ButtonClose>
-                        <button onClick={() => {
-                            setModalAddOpen(false)
-                        }}>
+                        <button onClick={closeModal}>
                             X
                         </button>
                     </S.ButtonClose>
@@ -69,7 +74,6 @@ const ModalUpdateUser = () => {
                                 type="tel"
                                 id="contact"
                                 placeholder="00-00000-0000"
-                                pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" required
                                 {...register("contact")}
                                 />
                                 <div>

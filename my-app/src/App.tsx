@@ -1,10 +1,15 @@
+import AuthProvider from "./contexts/AuthUserContext"
+import ContactProvider from "./contexts/contactsContext";
+import RoutesMain from "./routes";
 
-import './App.css';
 
 function App() {
   return (
-    <div className="App">
-    </div>
+    <>
+
+      <RoutesMain/>
+
+    </>
   );
 }
 

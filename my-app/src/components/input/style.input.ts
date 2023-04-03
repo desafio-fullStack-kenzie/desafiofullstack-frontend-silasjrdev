@@ -14,11 +14,13 @@ const StyledInput = styled.input`
             case "primary":
                 return css`
                     height: 50px;
+                    margin-top:5px;
                 `
             case "secondary":
                 return css`
 
                     height: 40px;
+                    margin-top:5px;
                 `
         }
     }}

@@ -1,4 +1,4 @@
-import Button from "../button/style.button";
+import {Button} from "../button/style.button";
 import StyledInput from "../input/style.input";
 import * as S from "./style.formRegister"
 
@@ -20,6 +20,7 @@ const FormUserRegister = () => {
     } = useForm<iUserDataRegister>({
         resolver: yupResolver(formSchemaUserRegister),
     });
+
 
     return (
         <>
@@ -64,11 +65,24 @@ const FormUserRegister = () => {
                         type="tel"
                         id="contact"
                         placeholder="00-00000-0000"
-                        pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" required
                         {...register("contact")}
                         />
                         <div>
                             <span>{errors.contact?.message}</span>
+                        </div>
+                    </label>
+
+                    <label htmlFor="imageUrl">
+                        Imagem de Perfil
+                        <StyledInput
+                        font="secondary"
+                        type="text"
+                        id="imageUrl"
+                        placeholder="Adicione a Url da sua imagem"
+                        {...register("imageUrl")}
+                        />
+                        <div>
+                            <span>{errors.imageUrl?.message}</span>
                         </div>
                     </label>
 
@@ -100,13 +114,13 @@ const FormUserRegister = () => {
                         </div>
                     </label>
 
-                    <Button font="secondary" type="submit">
+                    <Button font="primary" type="submit">
                         Cadastrar
                     </Button>
                 </S.Form>
                 <span className="help-text">
                     já possui conta?
-                    <S.LinkStyled to={"/session"}>Registre-se</S.LinkStyled>
+                    <S.LinkStyled to={"/session"}>Faça login</S.LinkStyled>
                 </span>
             </S.Container>
         </>

@@ -53,7 +53,7 @@ interface iContactData {
 
 interface iContactContextProps {
     //get contact
-    getContactData: () => Promise<void>
+    // loadContact: () => Promise<void>
 
     //post contact
     postContactData: (data: any) => Promise<void>
@@ -75,8 +75,8 @@ interface iContactContextProps {
     loading?: boolean
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
     
-    contactData:{}
-    setContactData: React.Dispatch<React.SetStateAction<{}>>
+    contactData:iContactDataRegisterResponse[]
+    setContactData: React.Dispatch<React.SetStateAction<iContactDataRegisterResponse[]>>
 
     user: iUserData | null
 

@@ -4,9 +4,10 @@ import {useForm} from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { iContactUpdate } from "../../../interface/contacts"
 import { formSchemaUpdateContact } from "../../../validations/contacts/contactUser"
-import * as S from "../../modals/createContact/style.contactModal"
+import * as S from "./style.updateContact"
 import StyledInput from "../../input/style.input"
-import Button from "../../button/style.button"
+import {Button} from "../../button/style.button"
+import { useNavigate } from "react-router-dom"
 
 const ModalUpdateContact = () => {
     const {updateContactData, setModalAddOpen} = useContext(ContactContext)
@@ -19,14 +20,18 @@ const ModalUpdateContact = () => {
         resolver: yupResolver(formSchemaUpdateContact)
     })
 
+    const navigate = useNavigate()
+
+    function closeModal(){
+        navigate("/dashboard", {replace: true})
+    }
+
     return (
         <>
             <S.DivMain>
                 <S.DivContainer>
                     <S.ButtonClose>
-                        <button onClick={() => {
-                            setModalAddOpen(false)
-                        }}>
+                        <button onClick={closeModal}>
                             X
                         </button>
                     </S.ButtonClose>
@@ -69,7 +74,6 @@ const ModalUpdateContact = () => {
                                 type="tel"
                                 id="contact"
                                 placeholder="00-00000-0000"
-                                pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" required
                                 {...register("contact")}
                                 />
                                 <div>

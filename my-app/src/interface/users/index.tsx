@@ -24,21 +24,19 @@ interface iUserDataRegisterResponse{
 }
 
 interface iUserTokenRegisterResponse{
-    accessToken: string
+    token: string
     user: iUserDataRegisterResponse
 }
 
 interface iResponseLogin{
-    accessToken: string,
-    user:{
-        id: string
-    }
+    token: string,
 }
 
 interface iUserData{
     fullName?: string
     email?: string
     id?: string
+    imageUrl?: string
     createdAt?: Date;
     updatedAt?: Date;
 }

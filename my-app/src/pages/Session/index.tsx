@@ -1,7 +1,12 @@
+import FormSession from "../../components/formSession";
+import * as S from "./style.session"
+
 const Session = () => {
     return(
         <>
-            <h1>Session</h1>
+            <S.Container>
+                <FormSession/>
+            </S.Container>
         </>
     )
 }

@@ -4,9 +4,10 @@ import {useForm} from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { iContactAddressUpdate, iContactUpdate } from "../../../interface/contacts"
 import {formSchemaUpdateAddressContact} from "../../../validations/contacts/contactUser"
-import * as S from "../../modals/createContact/style.contactModal"
+import * as S from "./style.updateAddressContact"
 import StyledInput from "../../input/style.input"
-import Button from "../../button/style.button"
+import {Button} from "../../button/style.button"
+import { useNavigate } from "react-router-dom"
 
 const ModalUpdateAddressContact = () => {
     const {updateContactAddressData, setModalAddOpen} = useContext(ContactContext)
@@ -19,19 +20,23 @@ const ModalUpdateAddressContact = () => {
         resolver: yupResolver(formSchemaUpdateAddressContact)
     })
 
+    const navigate = useNavigate()
+
+    function closeModal(){
+        navigate("/dashboard", {replace: true})
+    }
+
     return (
         <>
             <S.DivMain>
                 <S.DivContainer>
                     <S.ButtonClose>
-                        <button onClick={() => {
-                            setModalAddOpen(false)
-                        }}>
+                        <button onClick={closeModal}>
                             X
                         </button>
                     </S.ButtonClose>
                     <S.Title>
-                        <h1>Atualizar Contato</h1>
+                        <h1>Atualizar Endereço</h1>
                     </S.Title>
 
                     <S.FormDivContainer>
