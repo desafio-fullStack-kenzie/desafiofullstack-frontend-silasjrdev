@@ -1,1 +1,0 @@
-# desafiofullstack-frontend-silasjrdev
