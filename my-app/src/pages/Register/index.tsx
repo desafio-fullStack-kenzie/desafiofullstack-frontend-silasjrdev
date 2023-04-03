@@ -1,7 +1,12 @@
+import FormUserRegister from "../../components/formRegister";
+import * as S from "./style.register"
+
 const Register = () => {
     return(
         <>
-            <h1>Register</h1>
+            <S.Container>
+                <FormUserRegister/>
+            </S.Container>
         </>
     )
 }

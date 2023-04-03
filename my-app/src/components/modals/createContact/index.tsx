@@ -6,7 +6,8 @@ import { ContactContext } from "../../../contexts/contactsContext";
 import * as S from "./style.contactModal"
 import StyledInput from "../../input/style.input";
 import { useContext } from "react";
-import Button from "../../button/style.button";
+import {Button} from "../../button/style.button";
+import { useNavigate } from "react-router-dom";
 
 const ModalCreateContact = () => {
     const {postContactData, setModalAddOpen } = useContext(ContactContext)
@@ -18,15 +19,19 @@ const ModalCreateContact = () => {
     } = useForm<iContactDataRegister>({
         resolver: yupResolver(formSchemaContactRegister)
     });
+    
+    const navigate = useNavigate()
+
+    function closeModal(){
+        navigate("/dashboard", {replace: true})
+    }
 
     return (
         <>
             <S.DivMain>
                 <S.DivContainer>
                     <S.ButtonClose>
-                        <button onClick={() => {
-                            setModalAddOpen(false);
-                        }}>
+                        <button onClick={closeModal} type="button">
                             X
                         </button>
                     </S.ButtonClose>
@@ -71,7 +76,6 @@ const ModalCreateContact = () => {
                                 type="tel"
                                 id="contact"
                                 placeholder="00-00000-0000"
-                                pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" required
                                 {...register("contact")}
                                 />
                                 <div>
@@ -156,7 +160,6 @@ const ModalCreateContact = () => {
                             <Button font="secondary" type="submit">
                                 Cadastrar
                             </Button>
-                            
                         </S.Form>
                     </S.FormDivContainer>
                 </S.DivContainer>

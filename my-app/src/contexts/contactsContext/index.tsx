@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from "react"
-import { iContactAddressUpdate, iContactContextProps, iContactData, iContactProviderProps, iContactUpdate } from "../../interface/contacts"
+import { iContactAddressUpdate, iContactContextProps, iContactData, iContactDataRegisterResponse, iContactProviderProps, iContactUpdate } from "../../interface/contacts"
 import { Api } from "../../services/api"
 import { toastifySucess, toastifyFailed } from "../../components/toastify"
 import {useNavigate, useParams} from "react-router-dom"
@@ -7,34 +7,45 @@ import { UserContext } from "../AuthUserContext"
 
 export const ContactContext = createContext({} as iContactContextProps );
 
-const {contactId} = useParams()
-
 const ContactProvider = ({children}: iContactProviderProps) => {
-    const [contactData, setContactData] = useState<iContactData>({})
+    const [contactData, setContactData] = useState([] as iContactDataRegisterResponse[])
     const {user} = useContext(UserContext)
     const [loading, setLoading] = useState<boolean>(false)
     const [modalAddOpen, setModalAddOpen] = useState<boolean>(false)
+    const {contactId} = useParams()
     const navigate = useNavigate()
-
-    const getContactData = async () => {
-        try {
-            const {data} = await Api.get("/contacts")
-            setContactData(data)
-            setLoading(true)
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
+    
     useEffect(() => {
-        getContactData()
-    },[])
+        async function loadContact() {
+            const token = localStorage.getItem("@TOKEN");
+
+            if (token) {
+                try {
+                    const {data} = await Api.get("/contacts", {
+                        headers:{
+                            Authorization: `Bearer ${token}`,
+                        }
+                    })
+
+                    setContactData(data)
+                    setLoading(true)
+                } catch (error) {
+                    console.error(error)
+                }
+            }
+            setLoading(false)
+        }
+        loadContact()
+    }, [])
+
+
+
 
     const postContactData = async (data: iContactContextProps) =>{
         try {
             await Api.post("/contacts", data)
-            getContactData()
             toastifySucess("Contato Adicionado a sua agenda!")
+            navigate("/dashboard", {replace:true})
         } catch (error) {
             toastifyFailed("Ops! Algo Deu errado")
             console.error(error)
@@ -44,8 +55,8 @@ const ContactProvider = ({children}: iContactProviderProps) => {
     const deleteContactData = async (id: string) => {
         try {
             await Api.delete(`/contacts/${id}`)
-            getContactData()
-            navigate('/dashboard')
+            navigate('/dashboard', { replace:true })
+            window.location.reload()
         } catch (error) {
             console.error(error)
         }
@@ -53,6 +64,9 @@ const ContactProvider = ({children}: iContactProviderProps) => {
 
     const updateContactData = async (data: iContactUpdate) => {
         const token = localStorage.getItem("@TOKEN")
+
+        console.log(contactId)
+        
 
         try {
             await Api.patch(`/contacts/${contactId}`, data,
@@ -90,7 +104,6 @@ const ContactProvider = ({children}: iContactProviderProps) => {
 
     return (
         <ContactContext.Provider value={{
-            getContactData,
             postContactData,
             deleteContactData,
             updateContactAddressData,

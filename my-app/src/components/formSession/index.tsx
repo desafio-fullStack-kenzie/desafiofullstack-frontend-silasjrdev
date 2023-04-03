@@ -1,5 +1,5 @@
 import * as S from "../formRegister/style.formRegister";
-import Button from "../button/style.button";
+import {Button} from "../button/style.button";
 import StyledInput from "../input/style.input";
 
 import { useContext } from "react";
@@ -56,7 +56,7 @@ const FormSession = () => {
                         </div>
                     </label>
 
-                    <Button font="Primary" type="submit">
+                    <Button font="primary" type="submit">
                         Entrar
                     </Button>
                 </S.Form>

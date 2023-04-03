@@ -14,7 +14,7 @@ export const DivMain = styled.div`
 
 export const DivContainer = styled.div`
     background-color: ${({theme}) => theme.colors.gray.colorGray0};
-    width: 80%;
+    width: 70%;
     padding-bottom: 5px;
     border-radius: 10px;
 
@@ -38,7 +38,7 @@ export const ButtonClose = styled.div`
         height: 30px;
         border-radius: 4px;
         font-size: 18px;
-        color: ${({theme}) => theme.colors.white.secondary}
+        color: ${({theme}) => theme.colors.white.secondary};
     }
 `
 
@@ -47,12 +47,12 @@ export const Title = styled.div`
     align-items: center;
     justify-content: center;
 
-    margin-bottom: 37px;
+    margin-bottom: 20px;
 
     h1 {
-        font-size: ${({theme}) => theme.typography.fontSize.fontSize2forRem};
+        font-size: ${({theme}) => theme.typography.fontSize.fontSize26px};
         font-weight: ${({theme}) => theme.typography.fontWeight.fontWeight500};
-        color: ${({theme}) => theme.colors.white.secondary}
+        color: ${({theme}) => theme.colors.white.secondary};
     }
 `
 export const FormDivContainer = styled.div`
@@ -66,15 +66,15 @@ export const Form = styled.form`
     display: flex;
     justify-content: center;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.1rem;
     width: 100%;
     padding: 0 30px 0 30px;
 
     label{
-        fon-size: 0.9rem;
-        color: ${({theme}) => theme.colors.withe.primary};
+        font-size: 0.9rem;
+        color: ${({theme}) => theme.colors.white.primary};
         font-weight: ${({theme}) => theme.typography.fontWeight.fontWeight200};
-    }
+    } 
 
     div {
         border: 1px transparent solid;

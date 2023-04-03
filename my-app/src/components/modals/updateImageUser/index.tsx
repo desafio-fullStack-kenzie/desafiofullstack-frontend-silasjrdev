@@ -1,12 +1,13 @@
 import { useContext } from "react";
 import { UserContext } from "../../../contexts/AuthUserContext";
 import { useForm } from "react-hook-form";
-import * as S from "../../modals/createContact/style.contactModal"
+import * as S from "./style.updateImageUser"
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchemaUpdateImage from "../../../validations/users/updateImageUser";
 import { iUpdateUserImageData } from "../../../interface/users";
 import StyledInput from "../../input/style.input";
-import Button from "../../button/style.button";
+import {Button} from "../../button/style.button";
+import { useNavigate } from "react-router-dom";
 
 const ModalUpdateImageUser = () => {
     const {updateUserImageData, setModalAddOpen} = useContext(UserContext)
@@ -19,14 +20,18 @@ const ModalUpdateImageUser = () => {
         resolver: yupResolver(formSchemaUpdateImage)
     })
 
+    const navigate = useNavigate()
+
+    function closeModal(){
+        navigate("/dashboard", {replace: true})
+    }
+
     return(
         <>
             <S.DivMain>
                 <S.DivContainer>
                     <S.ButtonClose>
-                        <button onClick={() => {
-                            setModalAddOpen(false)
-                        }}>
+                        <button onClick={closeModal}>
                             X
                         </button>
                     </S.ButtonClose>

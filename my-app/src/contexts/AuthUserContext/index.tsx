@@ -6,14 +6,13 @@ import { iAuthProviderProps, iResponseLogin, iUpdateUserData, iUpdateUserImageDa
 
 export const UserContext = createContext({} as iUserContextProps);
 
-const {userId} = useParams()
-
 export default function UserProvider({children}: iAuthProviderProps) {
     const [loading, setLoading] = useState(true)
     const [userState, setUserState] = useState(false)
     const [userData, setUserData] = useState({})
     const [user, setUser] = useState<iUserData | null>(null)
     const [modalAddOpen, setModalAddOpen] = useState<boolean>(false)
+    const {userId} = useParams()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -39,13 +38,14 @@ export default function UserProvider({children}: iAuthProviderProps) {
 
     const onSubmitRegister = async (dataRegister: iUserDataRegister) => {
         setLoading(true)
-        delete dataRegister.confirmPassword
+        delete dataRegister.confirmPassword;
+        console.log(dataRegister)
 
         try {
             const { data } = await Api.post<iUserTokenRegisterResponse>("/users", dataRegister);
             toastifySucess("Cadastro Efetuado!")
             setLoading(false)
-            localStorage.setItem("@TOKEN", data.accessToken);
+            localStorage.setItem("@TOKEN", data.token);
             localStorage.setItem("@USERID", data.user.id);
 
             const userData = JSON.stringify(data.user)
@@ -69,17 +69,19 @@ export default function UserProvider({children}: iAuthProviderProps) {
     //Login
 
     const onSubmitLogin = async (dataLogin: iUserDataLogin) => {
+        console.log(dataLogin)
         try {
-            const { data } = await Api.post<iResponseLogin>("/session", dataLogin);
-            Api.defaults.headers.authorization = `Bearer ${data.accessToken}`
+            const response = await Api.post("/session", dataLogin);
+            
+            console.log(response)
 
-            window.localStorage.setItem("@TOKEN", data.accessToken)
-            window.localStorage.setItem("@USERID", data.user.id)
+           const {user: userResponse, token} = response.data
+           setUser(userResponse)
 
-            if(data.accessToken){
-                toastifySucess("Login Realizado")
-            }
-            setUser(data.user)
+            window.localStorage.setItem("@TOKEN", token)
+         
+            toastifySucess("Login Realizado")
+            
             navigate("/dashboard", {replace: true})
         } catch (error) {
             console.log(error)
